@@ -2,10 +2,9 @@ package li.redis.client;
 
 public interface RedisClient {
 
+    String set(final String key, String value);
 
     String get(String key);
-
-    boolean set(String key, int value);
 
     boolean del(String key);
 
