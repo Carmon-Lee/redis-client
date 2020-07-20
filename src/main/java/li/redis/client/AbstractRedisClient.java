@@ -1,12 +1,15 @@
 package li.redis.client;
 
 import li.redis.config.RedisConfig;
+import li.redis.constants.CommonConstants;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+
+import static li.redis.constants.CommonConstants.NEW_LINE;
 
 public abstract class AbstractRedisClient {
 
@@ -35,13 +38,13 @@ public abstract class AbstractRedisClient {
 
     protected String setString(String key, String value) {
         StringBuilder sb = new StringBuilder();
-        sb.append("*3").append("\r\n");
-        sb.append("$3").append("\r\n");
-        sb.append("set").append("\r\n");
-        sb.append("$").append(key.length()).append("\r\n");
-        sb.append(key).append("\r\n");
-        sb.append("$").append(value.length()).append("\r\n");
-        sb.append(value).append("\r\n");
+        sb.append("*3").append(NEW_LINE);
+        sb.append("$3").append(NEW_LINE);
+        sb.append("set").append(NEW_LINE);
+        sb.append("$").append(key.length()).append(NEW_LINE);
+        sb.append(key).append(NEW_LINE);
+        sb.append("$").append(value.length()).append(NEW_LINE);
+        sb.append(value).append(NEW_LINE);
 
         try {
             outputStream.write(sb.toString().getBytes());
