@@ -7,6 +7,6 @@ public class BulkStringEncoderTest extends TestCase {
 
     @Test
     public void testBulkEncode() {
-        assertEquals(BulkStringEncoder.encode("set"),"$3\r\nset\r\n");
+        assertEquals(DataEncoder.encodeBulkString("set"),"$3\r\nset\r\n");
     }
 }

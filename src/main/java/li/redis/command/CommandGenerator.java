@@ -1,6 +1,6 @@
 package li.redis.command;
 
-import li.redis.codec.BulkStringEncoder;
+import li.redis.codec.DataEncoder;
 import li.redis.constants.CommonConstants;
 import li.redis.constants.ProtocolConstants;
 
@@ -17,7 +17,7 @@ public class CommandGenerator {
 
     public CommandGenerator addString(String str) {
         count++;
-        sb.append(BulkStringEncoder.encode(str));
+        sb.append(DataEncoder.encodeBulkString(str));
         return this;
     }
 
