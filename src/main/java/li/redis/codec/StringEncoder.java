@@ -1,14 +1,14 @@
 package li.redis.codec;
 
-import static li.redis.constants.ProtocolConstants.*;
 import static li.redis.constants.CommonConstants.*;
+import static li.redis.constants.ProtocolConstants.*;
 
-public class BulkStringEncoder {
+public class StringEncoder {
+
     public String encode(String s) {
-        return BULK_STRING
-                + s.length()
-                + NEW_LINE
+        return SIMPLE_STRING
                 + s
                 + NEW_LINE;
     }
+
 }

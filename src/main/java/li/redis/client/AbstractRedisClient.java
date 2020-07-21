@@ -11,8 +11,10 @@ import java.net.Socket;
 
 import static li.redis.constants.CommonConstants.NEW_LINE;
 
+/**
+ * 抽象层，抽取公共代码
+ */
 public abstract class AbstractRedisClient {
-
     private RedisConfig config;
     private Socket socket;
     private OutputStream outputStream;
