@@ -1,7 +1,6 @@
 package li.redis.client;
 
 import li.redis.config.RedisConfig;
-import li.redis.constants.CommonConstants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,12 +8,10 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-import static li.redis.constants.CommonConstants.NEW_LINE;
-
 /**
  * 抽象层，抽取公共代码
  */
-public abstract class AbstractRedisClient {
+public abstract class AbstractRedisClient implements RedisClient {
     protected RedisConfig config;
     protected Socket socket;
     protected OutputStream outputStream;
