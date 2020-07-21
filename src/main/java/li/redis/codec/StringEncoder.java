@@ -5,7 +5,7 @@ import static li.redis.constants.ProtocolConstants.*;
 
 public class StringEncoder {
 
-    public String encode(String s) {
+    public static String encode(String s) {
         return SIMPLE_STRING
                 + s
                 + NEW_LINE;

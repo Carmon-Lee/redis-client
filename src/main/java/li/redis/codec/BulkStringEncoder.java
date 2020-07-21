@@ -4,7 +4,7 @@ import static li.redis.constants.ProtocolConstants.*;
 import static li.redis.constants.CommonConstants.*;
 
 public class BulkStringEncoder {
-    public String encode(String s) {
+    public static String encode(String s) {
         return BULK_STRING
                 + s.length()
                 + NEW_LINE

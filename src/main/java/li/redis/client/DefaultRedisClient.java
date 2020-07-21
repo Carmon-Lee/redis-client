@@ -1,10 +1,10 @@
 package li.redis.client;
 
+import li.redis.command.CommandGenerator;
 import li.redis.config.RedisConfig;
+import li.redis.constants.RedisCommandConstants;
 
 import java.io.IOException;
-
-import static li.redis.constants.CommonConstants.NEW_LINE;
 
 public class DefaultRedisClient extends AbstractRedisClient {
 
@@ -14,17 +14,13 @@ public class DefaultRedisClient extends AbstractRedisClient {
 
     @Override
     public String set(final String key, String value) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("*3").append(NEW_LINE);
-        sb.append("$3").append(NEW_LINE);
-        sb.append("set").append(NEW_LINE);
-        sb.append("$").append(key.length()).append(NEW_LINE);
-        sb.append(key).append(NEW_LINE);
-        sb.append("$").append(value.length()).append(NEW_LINE);
-        sb.append(value).append(NEW_LINE);
-
+        String command = CommandGenerator.builder()
+                .addString(RedisCommandConstants.SET)
+                .addString(key)
+                .addString(value)
+                .buildCommand();
         try {
-            outputStream.write(sb.toString().getBytes());
+            outputStream.write(command.getBytes());
             inputStream.read(buffer);
         } catch (IOException e) {
             e.printStackTrace();
