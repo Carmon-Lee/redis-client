@@ -8,9 +8,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class DefaultRedisClient extends AbstractRedisClient {
-    private Socket socket;
-    private InputStream inputStream;
-    private OutputStream outputStream;
 
     public DefaultRedisClient(String host, int port) {
         super(new RedisConfig(host, port));
