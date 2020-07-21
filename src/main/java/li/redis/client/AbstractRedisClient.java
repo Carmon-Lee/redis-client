@@ -11,7 +11,7 @@ import java.net.Socket;
 
 import static li.redis.constants.CommonConstants.NEW_LINE;
 
-public abstract class AbstractRedisClient {
+public abstract class AbstractRedisClient implements RedisClient {
 
     private RedisConfig config;
     private Socket socket;

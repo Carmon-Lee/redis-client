@@ -25,22 +25,27 @@ public class DefaultRedisClient extends AbstractRedisClient {
      * $6
      * lipeng
      */
+    @Override
     public String set(final String key, String value) {
         return setString(key, value);
     }
 
+    @Override
     public String get(String key) {
         return null;
     }
 
+    @Override
     public boolean del(String key) {
         return false;
     }
 
+    @Override
     public int incr(String key) {
         return 0;
     }
 
+    @Override
     public int decr(String key) {
         return 0;
     }
