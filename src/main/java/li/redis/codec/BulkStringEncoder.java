@@ -6,10 +6,9 @@ import li.redis.constants.ProtocolConstants;
 
 import static li.redis.constants.CommonConstants.NEW_LINE;
 
-public class BulkStringEncoder implements Encoder<String> {
+public class BulkStringEncoder {
 
-    @Override
-    public String encode(String s) {
+    public static String encode(String s) {
         return ProtocolConstants.BULK_STRING +
                 s.length() +
                 NEW_LINE +

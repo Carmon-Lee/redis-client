@@ -1,7 +1,8 @@
 package li.redis.client;
 
+import li.redis.command.CommandGenerator;
 import li.redis.config.RedisConfig;
-import li.redis.constants.CommonConstants;
+import li.redis.constants.RedisCommandConstants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,12 +10,9 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-import static li.redis.constants.CommonConstants.NEW_LINE;
-
 public abstract class AbstractRedisClient implements RedisClient {
 
     private RedisConfig config;
-    private Socket socket;
     private OutputStream outputStream;
     private InputStream inputStream;
     private byte[] buffer;
@@ -37,17 +35,14 @@ public abstract class AbstractRedisClient implements RedisClient {
     }
 
     protected String setString(String key, String value) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("*3").append(NEW_LINE);
-        sb.append("$3").append(NEW_LINE);
-        sb.append("set").append(NEW_LINE);
-        sb.append("$").append(key.length()).append(NEW_LINE);
-        sb.append(key).append(NEW_LINE);
-        sb.append("$").append(value.length()).append(NEW_LINE);
-        sb.append(value).append(NEW_LINE);
+        String command = CommandGenerator.builder()
+                .addString(RedisCommandConstants.SET)
+                .addString(key)
+                .addString(value)
+                .buildCommand();
 
         try {
-            outputStream.write(sb.toString().getBytes());
+            outputStream.write(command.getBytes());
             inputStream.read(buffer);
         } catch (IOException e) {
             e.printStackTrace();
