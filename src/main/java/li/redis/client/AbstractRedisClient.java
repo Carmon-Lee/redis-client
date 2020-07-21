@@ -15,11 +15,11 @@ import static li.redis.constants.CommonConstants.NEW_LINE;
  * 抽象层，抽取公共代码
  */
 public abstract class AbstractRedisClient {
-    private RedisConfig config;
-    private Socket socket;
-    private OutputStream outputStream;
-    private InputStream inputStream;
-    private byte[] buffer;
+    protected RedisConfig config;
+    protected Socket socket;
+    protected OutputStream outputStream;
+    protected InputStream inputStream;
+    protected byte[] buffer;
 
     public AbstractRedisClient(RedisConfig config) {
         this.config = config;
@@ -38,22 +38,5 @@ public abstract class AbstractRedisClient {
         buffer = new byte[128];
     }
 
-    protected String setString(String key, String value) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("*3").append(NEW_LINE);
-        sb.append("$3").append(NEW_LINE);
-        sb.append("set").append(NEW_LINE);
-        sb.append("$").append(key.length()).append(NEW_LINE);
-        sb.append(key).append(NEW_LINE);
-        sb.append("$").append(value.length()).append(NEW_LINE);
-        sb.append(value).append(NEW_LINE);
 
-        try {
-            outputStream.write(sb.toString().getBytes());
-            inputStream.read(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new String(buffer);
-    }
 }
