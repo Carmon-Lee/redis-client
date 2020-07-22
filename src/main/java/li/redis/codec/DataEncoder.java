@@ -6,7 +6,6 @@ import static li.redis.constants.ProtocolConstants.SIMPLE_STRING;
 
 public class DataEncoder {
 
-
     public static String encodeSimpleString(String s) {
         return SIMPLE_STRING
                 + s

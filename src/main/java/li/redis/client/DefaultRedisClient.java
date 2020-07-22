@@ -30,12 +30,33 @@ public class DefaultRedisClient extends AbstractRedisClient {
 
     @Override
     public String get(String key) {
-        return null;
+        String command = CommandGenerator.builder()
+                .addString(RedisCommandConstants.GET)
+                .addString(key)
+                .buildCommand();
+        try {
+            outputStream.write(command.getBytes());
+            inputStream.read(buffer);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new String(buffer);
     }
 
     @Override
     public boolean del(String key) {
-        return false;
+        String command = CommandGenerator.builder()
+                .addString(RedisCommandConstants.DEL)
+                .addString(key)
+                .buildCommand();
+        try {
+            outputStream.write(command.getBytes());
+            inputStream.read(buffer);
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override

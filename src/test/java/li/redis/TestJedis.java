@@ -11,7 +11,8 @@ public class TestJedis {
     @Test
     public void testSet(){
         Jedis jedis = new Jedis("localhost", 6379);
-        jedis.set("book", "three body");
+//        jedis.set("book", "three body");
+        jedis.del("book");
     }
 
 }
