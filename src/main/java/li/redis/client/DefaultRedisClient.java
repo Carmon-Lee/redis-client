@@ -3,6 +3,7 @@ package li.redis.client;
 import li.redis.command.CommandGenerator;
 import li.redis.config.RedisConfig;
 import li.redis.constants.RedisCommandConstants;
+import li.redis.util.StreamUtil;
 
 import java.io.IOException;
 
@@ -21,11 +22,11 @@ public class DefaultRedisClient extends AbstractRedisClient {
                 .buildCommand();
         try {
             outputStream.write(command.getBytes());
-            inputStream.read(buffer);
+            return new String(StreamUtil.drainBytes(inputStream));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new String(buffer);
+        return null;
     }
 
     @Override
