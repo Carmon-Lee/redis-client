@@ -10,7 +10,7 @@ import java.io.IOException;
 public class DefaultRedisClient extends AbstractRedisClient {
 
     public DefaultRedisClient(String host, int port) {
-        super(new RedisConfig(host, port));
+        super(new RedisConfig(host, port, 10));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class DefaultRedisClient extends AbstractRedisClient {
         try {
             outputStream.write(command.getBytes());
             inputStream.read(buffer);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new String(buffer);
@@ -53,7 +53,7 @@ public class DefaultRedisClient extends AbstractRedisClient {
         try {
             outputStream.write(command.getBytes());
             inputStream.read(buffer);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
