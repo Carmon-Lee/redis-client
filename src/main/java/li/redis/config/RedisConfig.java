@@ -16,4 +16,6 @@ public class RedisConfig {
      * 端口
      */
     private int port;
+
+    private int poolSize;
 }
