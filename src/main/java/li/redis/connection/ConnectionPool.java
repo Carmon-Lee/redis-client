@@ -2,10 +2,12 @@ package li.redis.connection;
 
 import li.redis.config.RedisConfig;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+@Slf4j
 public class ConnectionPool {
 
     private int poolSize;
@@ -29,7 +31,7 @@ public class ConnectionPool {
         try {
             return pool.take();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("interrupted while taking connection from pool,", e);
         }
         return null;
     }
@@ -38,7 +40,7 @@ public class ConnectionPool {
         try {
             pool.put(redisConnection);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("interrupted while putting connection to pool,", e);
         }
     }
 }

@@ -3,9 +3,6 @@ package li.redis.client;
 import li.redis.command.CommandGenerator;
 import li.redis.config.RedisConfig;
 import li.redis.constants.RedisCommandConstants;
-import li.redis.util.StreamUtil;
-
-import java.io.IOException;
 
 public class DefaultRedisClient extends AbstractRedisClient {
 
@@ -20,13 +17,7 @@ public class DefaultRedisClient extends AbstractRedisClient {
                 .addString(key)
                 .addString(value)
                 .buildCommand();
-        try {
-            outputStream.write(command.getBytes());
-            return new String(StreamUtil.drainBytes(inputStream));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return executeCommand(command);
     }
 
     @Override
@@ -35,13 +26,7 @@ public class DefaultRedisClient extends AbstractRedisClient {
                 .addString(RedisCommandConstants.GET)
                 .addString(key)
                 .buildCommand();
-        try {
-            outputStream.write(command.getBytes());
-            inputStream.read(buffer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new String(buffer);
+        return executeCommand(command);
     }
 
     @Override
@@ -50,14 +35,8 @@ public class DefaultRedisClient extends AbstractRedisClient {
                 .addString(RedisCommandConstants.DEL)
                 .addString(key)
                 .buildCommand();
-        try {
-            outputStream.write(command.getBytes());
-            inputStream.read(buffer);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        String result = executeCommand(command);
+        return "OK".equals(result);
     }
 
     @Override

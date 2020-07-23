@@ -1,39 +1,23 @@
 package li.redis.client;
 
 import li.redis.config.RedisConfig;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
+import li.redis.connection.ConnectionPool;
+import li.redis.connection.RedisConnection;
 
 /**
  * 抽象层，抽取公共代码
  */
 public abstract class AbstractRedisClient implements RedisClient {
-    protected RedisConfig config;
-    protected Socket socket;
-    protected OutputStream outputStream;
-    protected InputStream inputStream;
-    protected byte[] buffer;
+    private final ConnectionPool connectionPool;
 
     public AbstractRedisClient(RedisConfig config) {
-        this.config = config;
-        try {
-            init();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        connectionPool = new ConnectionPool(config);
     }
 
-    private void init() throws IOException {
-        Socket socket = new Socket();
-        socket.connect(new InetSocketAddress(config.getHost(), config.getPort()));
-        outputStream = socket.getOutputStream();
-        inputStream = socket.getInputStream();
-        buffer = new byte[128];
+    protected String executeCommand(String command) {
+        RedisConnection connection = connectionPool.acquireConnection();
+        String result = connection.execute(command);
+        connectionPool.releaseConnection(connection);
+        return result;
     }
-
-
 }
