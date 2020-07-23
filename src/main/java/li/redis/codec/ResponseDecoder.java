@@ -19,7 +19,13 @@ public class ResponseDecoder {
     public static String decodeBulkString(String response) {
         throwExceptionIfNecessary(response);
         if (response.startsWith(ProtocolConstants.BULK_STRING)) {
-            return response.substring(1, response.lastIndexOf(NEW_LINE));
+            if (response.substring(1).startsWith("-1")) {
+                return null;
+            } else if (response.substring(1).startsWith("0")) {
+                return "";
+            } else {
+                return response.substring(1, response.lastIndexOf(NEW_LINE));
+            }
         }
         throw new RedisException("响应结果异常");
     }

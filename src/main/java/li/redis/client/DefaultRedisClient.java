@@ -1,5 +1,6 @@
 package li.redis.client;
 
+import li.redis.codec.ResponseDecoder;
 import li.redis.command.CommandGenerator;
 import li.redis.config.RedisConfig;
 import li.redis.constants.RedisCommandConstants;
@@ -17,7 +18,7 @@ public class DefaultRedisClient extends AbstractRedisClient {
                 .addString(key)
                 .addString(value)
                 .buildCommand();
-        return executeCommand(command);
+        return ResponseDecoder.decodeSimpleString(executeCommand(command));
     }
 
     @Override
@@ -26,7 +27,7 @@ public class DefaultRedisClient extends AbstractRedisClient {
                 .addString(RedisCommandConstants.GET)
                 .addString(key)
                 .buildCommand();
-        return executeCommand(command);
+        return ResponseDecoder.decodeBulkString(executeCommand(command));
     }
 
     @Override
