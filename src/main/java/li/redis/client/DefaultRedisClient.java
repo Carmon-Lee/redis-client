@@ -13,40 +13,47 @@ public class DefaultRedisClient extends AbstractRedisClient {
 
     @Override
     public String set(final String key, String value) {
-        String command = CommandGenerator.builder()
-                .addString(RedisCommandConstants.SET)
-                .addString(key)
-                .addString(value)
-                .buildCommand();
-        return ResponseDecoder.decodeSimpleString(executeCommand(command));
+        String command = singleKeyCommand(RedisCommandConstants.SET, key, value);
+        return ResponseDecoder.decodeSimpleString(executeAndGetString(command));
     }
 
     @Override
     public String get(String key) {
-        String command = CommandGenerator.builder()
-                .addString(RedisCommandConstants.GET)
-                .addString(key)
-                .buildCommand();
-        return ResponseDecoder.decodeBulkString(executeCommand(command));
+        String command = singleKeyCommand(RedisCommandConstants.GET,key);
+        return ResponseDecoder.decodeBulkString(executeAndGetString(command));
     }
 
     @Override
     public boolean del(String key) {
-        String command = CommandGenerator.builder()
-                .addString(RedisCommandConstants.DEL)
-                .addString(key)
-                .buildCommand();
-        String result = executeCommand(command);
+        String command = singleKeyCommand(RedisCommandConstants.DEL,key);
+        String result = executeAndGetString(command);
         return "OK".equals(result);
     }
 
     @Override
     public int incr(String key) {
-        return 0;
+        String command = singleKeyCommand(RedisCommandConstants.INCR,key);
+        String result = executeAndGetString(command);
+        return ResponseDecoder.decodeInteger(result);
     }
 
     @Override
     public int decr(String key) {
-        return 0;
+        String command = singleKeyCommand(RedisCommandConstants.DECR,key);
+        String result = executeAndGetString(command);
+        return ResponseDecoder.decodeInteger(result);
+    }
+
+
+    private String singleKeyCommand(String command, String key, String... params) {
+        CommandGenerator commandGenerator = CommandGenerator.builder()
+                .addString(command)
+                .addString(key);
+        if (params!=null) {
+            for (String param : params) {
+                commandGenerator.addString(param);
+            }
+        }
+        return commandGenerator.buildCommand();
     }
 }

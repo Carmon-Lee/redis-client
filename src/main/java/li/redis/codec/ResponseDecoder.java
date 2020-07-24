@@ -3,6 +3,8 @@ package li.redis.codec;
 import li.redis.constants.ProtocolConstants;
 import li.redis.exception.RedisException;
 
+import java.util.List;
+
 import static li.redis.constants.CommonConstants.NEW_LINE;
 import static li.redis.constants.ProtocolConstants.EXCEPTION;
 
@@ -29,6 +31,24 @@ public class ResponseDecoder {
         }
         throw new RedisException("响应结果异常");
     }
+
+    public static int decodeInteger(String response) {
+        throwExceptionIfNecessary(response);
+        if (!response.startsWith(ProtocolConstants.NUMBER)) {
+            throw new RedisException("Wrong message type, expected int, but response don't correspond",response);
+        }
+        response = response.replace(NEW_LINE,"");
+        return Integer.parseInt(response.substring(1));
+    }
+
+    public static List<String> decodeList(String response) {
+        throwExceptionIfNecessary(response);
+        if (!response.startsWith(ProtocolConstants.ARRAY)) {
+            throw new RedisException("Wrong message type, expected int, but response don't correspond",response);
+        }
+        return null;
+    }
+
 
     private static void throwExceptionIfNecessary(String response) {
         if (null == response || !response.contains(NEW_LINE)) {

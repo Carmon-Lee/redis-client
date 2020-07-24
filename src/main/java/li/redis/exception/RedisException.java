@@ -6,6 +6,7 @@ import lombok.ToString;
 public class RedisException extends RuntimeException {
 
     private String code;
+    private String message;
 
     public RedisException() {
         super();
@@ -14,14 +15,17 @@ public class RedisException extends RuntimeException {
     public RedisException(String code, String message) {
         super(message);
         this.code = code;
+        this.message = message;
     }
 
     public RedisException(String message) {
         super(message);
+        this.message = message;
     }
 
     public RedisException(String message, Throwable cause) {
         super(message, cause);
+        this.message = message;
     }
 
     public RedisException(Throwable cause) {
@@ -30,5 +34,6 @@ public class RedisException extends RuntimeException {
 
     public RedisException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+        this.message = message;
     }
 }

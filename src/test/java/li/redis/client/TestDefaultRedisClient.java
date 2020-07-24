@@ -53,5 +53,15 @@ public class TestDefaultRedisClient {
         System.out.println(map.keySet());
     }
 
+    @Test
+    public void testIncr(){
+        System.out.println(client.incr("counter"));
+        System.out.println(client.incr("counter"));
+        System.out.println(client.incr("counter"));
+        System.out.println(client.decr("counter"));
+        System.out.println(client.decr("counter"));
+        System.out.println(client.decr("counter"));
+    }
+
 
 }

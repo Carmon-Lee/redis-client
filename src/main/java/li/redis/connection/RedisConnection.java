@@ -27,11 +27,10 @@ public class RedisConnection {
         }
     }
 
-    public String execute(String command) {
+    public byte[] execute(String command) {
         try {
             outputStream.write(command.getBytes());
-            byte[] bytes = StreamUtil.drainBytes(inputStream);
-            return new String(bytes);
+            return StreamUtil.drainBytes(inputStream);
         } catch (IOException e) {
             log.error("writing command or receiving response error,", e);
         }

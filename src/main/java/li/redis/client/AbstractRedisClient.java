@@ -14,10 +14,16 @@ public abstract class AbstractRedisClient implements RedisClient {
         connectionPool = new ConnectionPool(config);
     }
 
-    protected String executeCommand(String command) {
+    private byte[] executeCommand(String command) {
         RedisConnection connection = connectionPool.acquireConnection();
-        String result = connection.execute(command);
+        byte[] result = connection.execute(command);
         connectionPool.releaseConnection(connection);
         return result;
     }
+
+    protected String executeAndGetString(String command) {
+        byte[] result = executeCommand(command);
+        return new String(result);
+    }
+
 }
