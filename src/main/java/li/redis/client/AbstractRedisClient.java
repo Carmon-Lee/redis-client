@@ -1,5 +1,6 @@
 package li.redis.client;
 
+import li.redis.command.CommandGenerator;
 import li.redis.config.RedisConfig;
 import li.redis.connection.ConnectionPool;
 import li.redis.connection.RedisConnection;
@@ -24,6 +25,18 @@ public abstract class AbstractRedisClient implements RedisClient {
     protected String executeAndGetString(String command) {
         byte[] result = executeCommand(command);
         return new String(result);
+    }
+
+    protected String singleKeyCommand(String command, String key, String... params) {
+        CommandGenerator commandGenerator = CommandGenerator.builder()
+                .addString(command)
+                .addString(key);
+        if (params!=null) {
+            for (String param : params) {
+                commandGenerator.addString(param);
+            }
+        }
+        return commandGenerator.buildCommand();
     }
 
 }

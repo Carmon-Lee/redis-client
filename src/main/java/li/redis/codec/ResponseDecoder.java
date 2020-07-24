@@ -2,7 +2,9 @@ package li.redis.codec;
 
 import li.redis.constants.ProtocolConstants;
 import li.redis.exception.RedisException;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static li.redis.constants.CommonConstants.NEW_LINE;
@@ -35,18 +37,31 @@ public class ResponseDecoder {
     public static int decodeInteger(String response) {
         throwExceptionIfNecessary(response);
         if (!response.startsWith(ProtocolConstants.NUMBER)) {
-            throw new RedisException("Wrong message type, expected int, but response don't correspond",response);
+            throw new RedisException("Wrong message type, expected int, but response don't correspond", response);
         }
-        response = response.replace(NEW_LINE,"");
+        response = response.replace(NEW_LINE, "");
         return Integer.parseInt(response.substring(1));
     }
 
     public static List<String> decodeList(String response) {
         throwExceptionIfNecessary(response);
         if (!response.startsWith(ProtocolConstants.ARRAY)) {
-            throw new RedisException("Wrong message type, expected int, but response don't correspond",response);
+            throw new RedisException("Wrong message type, expected int, but response don't correspond", response);
         }
-        return null;
+        int i = response.indexOf(NEW_LINE);
+        int length = Integer.parseInt(response.substring(1, i));
+        response = StringUtils.substring(response, i);
+        response = StringUtils.removeStart(response, NEW_LINE);
+
+        List<String> list = new ArrayList<>(length);
+        while (StringUtils.isNotBlank(response)) {
+            int i1 = StringUtils.indexOf(response, NEW_LINE);
+            int len = Integer.parseInt(StringUtils.substring(response, 1, i1));
+            response = StringUtils.substring(response, i1+NEW_LINE.length());
+            list.add(StringUtils.substring(response, 0, len));
+            response = StringUtils.substring(response, len+NEW_LINE.length());
+        }
+        return list;
     }
 
 

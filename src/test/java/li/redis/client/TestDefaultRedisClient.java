@@ -1,5 +1,6 @@
 package li.redis.client;
 
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,6 +62,13 @@ public class TestDefaultRedisClient {
         System.out.println(client.decr("counter"));
         System.out.println(client.decr("counter"));
         System.out.println(client.decr("counter"));
+    }
+
+    @Test
+    public void testEval(){
+        Object eval = client.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", Lists.newArrayList("key1", "key2"), Lists.newArrayList("first", "second"));
+        System.out.println(eval);
+
     }
 
 

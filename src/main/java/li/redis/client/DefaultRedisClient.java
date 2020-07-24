@@ -5,6 +5,8 @@ import li.redis.command.CommandGenerator;
 import li.redis.config.RedisConfig;
 import li.redis.constants.RedisCommandConstants;
 
+import java.util.List;
+
 public class DefaultRedisClient extends AbstractRedisClient {
 
     public DefaultRedisClient(String host, int port) {
@@ -44,16 +46,24 @@ public class DefaultRedisClient extends AbstractRedisClient {
         return ResponseDecoder.decodeInteger(result);
     }
 
-
-    private String singleKeyCommand(String command, String key, String... params) {
+    @Override
+    public Object eval(String script, List<String> keys, List<String> args) {
         CommandGenerator commandGenerator = CommandGenerator.builder()
-                .addString(command)
-                .addString(key);
-        if (params!=null) {
-            for (String param : params) {
-                commandGenerator.addString(param);
-            }
+                .addString(RedisCommandConstants.EVAL)
+                .addString(script);
+
+        commandGenerator.addString(String.valueOf(keys.size()));
+        for (String key : keys) {
+            commandGenerator.addString(key);
         }
-        return commandGenerator.buildCommand();
+        for (String arg : args) {
+            commandGenerator.addString(arg);
+        }
+        String command = commandGenerator.buildCommand();
+        String result = executeAndGetString(command);
+        return ResponseDecoder.decodeList(result);
     }
+
+
+
 }

@@ -12,5 +12,7 @@ public class RedisCommandConstants {
 
     public static final String DECR = "decr";
 
+    public static final String EVAL = "eval";
+
 
 }
