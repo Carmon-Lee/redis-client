@@ -1,4 +1,4 @@
-package li.redis;
+package li.redis.client;
 
 import org.junit.Test;
 import redis.clients.jedis.Jedis;
@@ -12,7 +12,9 @@ public class TestJedis {
     public void testSet(){
         Jedis jedis = new Jedis("localhost", 6379);
 //        jedis.set("book", "three body");
-        jedis.del("book");
+//        jedis.del("book");
+        String book = jedis.get("book");
+        System.out.println(book);
     }
 
 }

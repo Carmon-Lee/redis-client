@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class StreamUtil {
+public class StreamUtils {
 
     public static byte[] drainBytes(InputStream inputStream) throws IOException {
         // 大多数数据长度小于128，分配过长会产生不必要的内存消耗

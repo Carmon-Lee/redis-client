@@ -13,14 +13,14 @@ public class StreamUtilTest extends TestCase {
         String inputstring = "Hello redis";
         ByteArrayInputStream bais = new ByteArrayInputStream(inputstring.getBytes());
 
-        byte[] bytes = StreamUtil.drainBytes(bais);
+        byte[] bytes = StreamUtils.drainBytes(bais);
         System.out.println(new String(bytes));
         assertEquals(inputstring, new String(bytes));
 
         inputstring = "new ByteArrayInputStream(inputstring.getBytes())";
         bais = new ByteArrayInputStream(inputstring.getBytes());
 
-        bytes = StreamUtil.drainBytes(bais);
+        bytes = StreamUtils.drainBytes(bais);
         System.out.println(new String(bytes));
         assertEquals(inputstring, new String(bytes));
     }

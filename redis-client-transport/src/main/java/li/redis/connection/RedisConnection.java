@@ -1,6 +1,6 @@
 package li.redis.connection;
 
-import li.redis.util.StreamUtil;
+import li.redis.util.StreamUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class RedisConnection {
     public byte[] execute(String command) {
         try {
             outputStream.write(command.getBytes());
-            return StreamUtil.drainBytes(inputStream);
+            return StreamUtils.drainBytes(inputStream);
         } catch (IOException e) {
             log.error("writing command or receiving response error,", e);
         }
