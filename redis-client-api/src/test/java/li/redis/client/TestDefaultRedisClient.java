@@ -37,7 +37,6 @@ public class TestDefaultRedisClient {
         System.out.println(del);
     }
 
-    // todo 这种方式存在多线程问题，会发生粘包，可能一次接收到多个结果，需要修改实现方式
     @Test
     public void testMultiThreadSet() {
         ExecutorService executorService = Executors.newFixedThreadPool(10);

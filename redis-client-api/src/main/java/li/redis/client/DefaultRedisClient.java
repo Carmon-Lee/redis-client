@@ -49,10 +49,11 @@ public class DefaultRedisClient extends AbstractRedisClient {
 
     @Override
     public Object eval(String script, List<String> keys, List<String> args) {
-        ArrayList<String> strings = Lists.newArrayList(keys);
+        ArrayList<String> strings = Lists.newArrayList(String.valueOf(keys.size()));
+        strings.addAll(keys);
         strings.addAll(args);
 
-        String command = singleKeyCommand(RedisCommandConstants.EVAL, String.valueOf(keys.size()),
+        String command = singleKeyCommand(RedisCommandConstants.EVAL, script,
                 strings.toArray(new String[0]));
         String result = executeAndGetString(command);
         return ResponseDecoder.decodeList(result);
