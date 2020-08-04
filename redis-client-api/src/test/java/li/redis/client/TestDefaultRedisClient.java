@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -20,20 +22,26 @@ public class TestDefaultRedisClient {
     }
 
     @Test
+    public void testKeys(){
+        List<String> keys = client.keys("*");
+        System.out.println(Arrays.toString(keys.toArray()));
+    }
+
+    @Test
     public void testSet() {
-        String set = client.set("city", "shenzhen");
+        String set = client.set("nation", "UN");
         System.out.println(set);
     }
 
     @Test
     public void testGet(){
-        String name = client.get("book");
-        System.out.println(name);
+        String result = client.get("author");
+        System.out.println(result);
     }
 
     @Test
     public void testDel(){
-        boolean del = client.del("city");
+        boolean del = client.del("nation");
         System.out.println(del);
     }
 
@@ -65,10 +73,21 @@ public class TestDefaultRedisClient {
 
     @Test
     public void testEval(){
-        Object eval = client.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", Lists.newArrayList("key1", "key2"), Lists.newArrayList("first", "second"));
+        Object eval = client.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}",
+                Lists.newArrayList("key1", "key2"),
+                Lists.newArrayList("first", "second"));
         System.out.println(eval);
-
     }
+
+    @Test
+    public void testAppend(){
+//        int result = client.append("author", " Holmes");
+//        System.out.println(result);
+//        System.out.println(client.get("author"));
+    }
+
+
+
 
 
 }

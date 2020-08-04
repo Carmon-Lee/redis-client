@@ -5,6 +5,8 @@ import li.redis.config.RedisConfig;
 import li.redis.connection.ConnectionPool;
 import li.redis.connection.RedisConnection;
 
+import java.util.Set;
+
 /**
  * 抽象层，抽取公共代码
  */
@@ -27,11 +29,11 @@ public abstract class AbstractRedisClient implements RedisClient {
         return new String(result);
     }
 
-    protected String singleKeyCommand(String command, String key, String... params) {
+    protected String getSingleKeyCommand(String action, String key, String... params) {
         CommandGenerator commandGenerator = CommandGenerator.builder()
-                .addString(command)
+                .addString(action)
                 .addString(key);
-        if (params!=null) {
+        if (params != null) {
             for (String param : params) {
                 commandGenerator.addString(param);
             }

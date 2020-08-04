@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static li.redis.constants.CommonConstants.NEW_LINE;
 import static li.redis.constants.ProtocolConstants.EXCEPTION;
@@ -46,7 +47,7 @@ public class ResponseDecoder {
     public static List<String> decodeList(String response) {
         throwExceptionIfNecessary(response);
         if (!response.startsWith(ProtocolConstants.ARRAY)) {
-            throw new RedisException("Wrong message type, expected int, but response don't correspond", response);
+            throw new RedisException("Wrong message type, expected array, but response don't correspond", response);
         }
         int i = response.indexOf(NEW_LINE);
         int length = Integer.parseInt(response.substring(1, i));
@@ -57,13 +58,12 @@ public class ResponseDecoder {
         while (StringUtils.isNotBlank(response)) {
             int i1 = StringUtils.indexOf(response, NEW_LINE);
             int len = Integer.parseInt(StringUtils.substring(response, 1, i1));
-            response = StringUtils.substring(response, i1+NEW_LINE.length());
+            response = StringUtils.substring(response, i1 + NEW_LINE.length());
             list.add(StringUtils.substring(response, 0, len));
-            response = StringUtils.substring(response, len+NEW_LINE.length());
+            response = StringUtils.substring(response, len + NEW_LINE.length());
         }
         return list;
     }
-
 
     private static void throwExceptionIfNecessary(String response) {
         if (null == response || !response.contains(NEW_LINE)) {
@@ -74,4 +74,5 @@ public class ResponseDecoder {
             throw new RedisException(split[0], split[1]);
         }
     }
+
 }

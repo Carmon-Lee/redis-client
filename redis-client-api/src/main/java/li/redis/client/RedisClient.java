@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface RedisClient {
 
-    String set(final String key, String value);
+    List<String> keys(String pattern);
+
+    String set(String key, String value);
 
     String get(String key);
 
@@ -15,4 +17,7 @@ public interface RedisClient {
     int decr(String key);
 
     Object eval(String script, List<String> keys, List<String> args);
+
+    int append(String key, String value);
+
 }

@@ -2,6 +2,8 @@ package li.redis.constants;
 
 public class RedisCommandConstants {
 
+    public static final String KEYS = "keys";
+
     public static final String SET = "set";
 
     public static final String GET = "get";
@@ -14,5 +16,6 @@ public class RedisCommandConstants {
 
     public static final String EVAL = "eval";
 
+    public static final String APPEND = "append";
 
 }
